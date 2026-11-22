@@ -1783,8 +1783,7 @@ router.post('/setup/initialize', (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Invalid service model' });
     }
 
-    // New installs start with cloud coordination enabled.
-    const cloudSyncEnabled = true;
+    const cloudSyncEnabled = req.body.cloud_sync_enabled === true;
     let normalizedCloudServerUrl: string | undefined;
     if (cloudSyncEnabled) {
       try {

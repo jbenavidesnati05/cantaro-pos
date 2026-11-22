@@ -1,6 +1,6 @@
 {
   "name": "flo-desktop",
-  "version": "3.13.61",
+  "version": "3.13.62",
   "description": "Free, open-source, offline-first restaurant POS with KDS, SQLite, and thermal printer support.",
   "engines": {
     "node": ">=22.12.0"
@@ -457,8 +457,8 @@
     "ws": "^8.22.1"
   },
   "build": {
-    "appId": "com.flo.desktop",
-    "productName": "Flo Cafe",
+    "appId": "com.cantaro.pos",
+    "productName": "Cantaro POS",
     "icon": "assets/icon-512.png",
     "afterPack": "scripts/afterPack.js",
     "asar": true,
@@ -473,8 +473,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "FreeOpenSourcePOS",
-      "repo": "FloCafe",
+      "owner": "jbenavidesnati05",
+      "repo": "cantaro-pos",
       "releaseType": "release",
       "channel": "latest"
     },
@@ -507,7 +507,7 @@
         }
       ],
       "icon": "assets/icon.ico",
-      "artifactName": "flocafe-${version}-win-${arch}.${ext}"
+      "artifactName": "cantaro-pos-${version}-win-${arch}.${ext}"
     },
     "appx": {
       "applicationId": "FloCafe",

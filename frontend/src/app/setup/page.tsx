@@ -144,7 +144,7 @@ export default function SetupPage() {
   const ownerApprovalPinValid =
     /^\d{4,6}$/.test(ownerApprovalPin) && ownerApprovalPin === ownerApprovalPinConfirm;
 
-  const cloudEnabled = true;
+  const [cloudEnabled, setCloudEnabled] = useState(false);
   const [cloudServerUrl, setCloudServerUrl] = useState(DEFAULT_CLOUD_SERVER_URL);
 
   const isPasswordValid = validatePassword;
@@ -381,7 +381,7 @@ export default function SetupPage() {
         master_pin: masterPinAvailable ? masterPin : undefined,
         owner_approval_pin: ownerApprovalPin,
         owner_approval_pin_confirmation: ownerApprovalPinConfirm,
-        cloud_sync_enabled: true,
+        cloud_sync_enabled: cloudEnabled,
         cloud_server_url: cloudServerUrl.trim() || DEFAULT_CLOUD_SERVER_URL,
         email_product_updates: productUpdates,
         email_marketing: marketing,
@@ -1130,15 +1130,13 @@ export default function SetupPage() {
                   <input
                     type="checkbox"
                     checked={cloudEnabled}
-                    disabled
+                    onChange={(e) => setCloudEnabled(e.target.checked)}
                     className="mt-0.5 h-4 w-4 rounded border-gray-300"
                   />
                   <span>
-                    <span className="font-medium text-foreground">
-                      {t('cloudManagedAutomaticallyTitle')}
-                    </span>
+                    <span className="font-medium text-foreground">{t('cloudEnableLabel')}</span>
                     <span className="block text-sm text-muted-foreground mt-1">
-                      {t('cloudManagedAutomaticallyDescription')}
+                      {t('cloudEnableHint')}
                     </span>
                   </span>
                 </label>

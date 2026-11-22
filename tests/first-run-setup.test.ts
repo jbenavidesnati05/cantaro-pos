@@ -474,20 +474,12 @@ async function main() {
     assert.equal(count('users'), 1, 'disabled setup still cannot create a third owner');
     console.log('   ✓ disabled setup returns 403 before timezone validation');
 
-    // Cloud v2 coordination is automatic for new installs.
-    // '1', not 'true' — cloud-sync.ts reads this key with a strict '1' check
-    // everywhere, matching FloAdmin's own `stores` table.
     assert.equal(
       setting('cloud_sync_enabled'),
-      '1',
-      'cloud coordination is enabled automatically on v2 setup',
+      '0',
+      'cloud coordination stays off unless setup opts in',
     );
-    assert.equal(
-      setting('cloud_server_url'),
-      'https://blue.flopos.com',
-      'cloud server URL keeps the default',
-    );
-    console.log('   ✓ setup endpoint enables cloud coordination automatically');
+    console.log('   ✓ setup endpoint leaves cloud coordination off without an opt-in');
   } finally {
     cloudSync.refreshRegistrationProfile = originalRefreshRegistrationProfile;
     await new Promise<void>((resolve) => server.close(() => resolve()));
