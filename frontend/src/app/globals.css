@@ -8,42 +8,42 @@
   --font-sans: "Geist", "Noto Sans Devanagari", "Nirmala UI", "Kohinoor Devanagari", "Devanagari Sangam MN", "Noto Sans Gurmukhi", "Raavi", "Kohinoor Gurmukhi", "Gurmukhi Sangam MN", "Noto Sans Telugu", "Kohinoor Telugu", "Telugu Sangam MN", system-ui, sans-serif;
   --font-mono: "Geist Mono", monospace;
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #f8eedd;
+  --foreground: #2b1d12;
+  --card: #fffdf8;
+  --card-foreground: #2b1d12;
+  --popover: #fffdf8;
+  --popover-foreground: #2b1d12;
+  --primary: #2f3e0f;
+  --primary-foreground: #f8eedd;
+  --secondary: #f1e2c8;
+  --secondary-foreground: #5b3a21;
+  --muted: #f1e2c8;
+  --muted-foreground: #7a5a40;
+  --accent: #f3d6c1;
+  --accent-foreground: #5b3a21;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: #e6d3b5;
+  --input: #dcc7a6;
+  --ring: #d2652a;
   /* Semantic surfaces: new UI uses these instead of raw gray or indigo
    * utilities. Existing raw-color usage migrates only when that page is
    * already being touched, not as a standalone sweep. */
   --panel: var(--card);
-  --selected-row: #e8ebff;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #3248FF;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: #e8ebff;
-  --sidebar-accent-foreground: #3248FF;
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: #3248FF;
+  --selected-row: #f6d9c2;
+  --chart-1: #d2652a;
+  --chart-2: #6e9e2e;
+  --chart-3: #7a5a40;
+  --chart-4: #e0a526;
+  --chart-5: #4a5d1e;
+  --sidebar: #2f3e0f;
+  --sidebar-foreground: #f8eedd;
+  --sidebar-primary: #d2652a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #b5521d;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgb(248 238 221 / 16%);
+  --sidebar-ring: #e9a27a;
 
   /* Hoisted to :root so fixed app chrome can offset below the title bar;
    * consumed by both .flo-title-bar and the sidebar inset rules below. */
@@ -448,54 +448,53 @@ div:hover > .flo-toast-drain,
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Brand colors */
-  --color-brand: #3248FF;
-  --color-brand-light: #e8ebff;
-  --color-brand-hover: #2538d4;
-  --color-brand-ring: #3248FF80;
-  --color-success: #00cc61;
-  --color-success-light: #dcfce7;
-  --color-success-hover: #00b355;
+  --color-brand: #b5521d;
+  --color-brand-light: #fbe6d8;
+  --color-brand-hover: #9a4518;
+  --color-brand-ring: #d2652a80;
+  --color-success: #4d7c1c;
+  --color-success-light: #e6f0d6;
+  --color-success-hover: #3f6716;
 }
 
 .dark {
-  --background: oklch(0.17 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.22 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.22 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.28 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.28 0 0);
-  --muted-foreground: oklch(0.75 0 0);
-  --accent: oklch(0.28 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: #1c1510;
+  --foreground: #f5ede2;
+  --card: #261d16;
+  --card-foreground: #f5ede2;
+  --popover: #261d16;
+  --popover-foreground: #f5ede2;
+  --primary: #e07a3f;
+  --primary-foreground: #1c1510;
+  --secondary: #33281f;
+  --secondary-foreground: #f5ede2;
+  --muted: #33281f;
+  --muted-foreground: #bba996;
+  --accent: #3a2c21;
+  --accent-foreground: #f5ede2;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 18%);
-  --ring: oklch(0.556 0 0);
+  --border: rgb(255 240 220 / 12%);
+  --input: rgb(255 240 220 / 18%);
+  --ring: #e07a3f;
   --panel: var(--card);
-  --selected-row: oklch(0.24 0.03 264);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: #6366f1;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.28 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: #6366f1;
+  --selected-row: #3a2616;
+  --chart-1: #e07a3f;
+  --chart-2: #8cbf45;
+  --chart-3: #c9a27e;
+  --chart-4: #e8b84a;
+  --chart-5: #a3b86a;
+  --sidebar: #1f290a;
+  --sidebar-foreground: #f5ede2;
+  --sidebar-primary: #c95e26;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #b5521d;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgb(255 240 220 / 12%);
+  --sidebar-ring: #e07a3f;
 
-  /* Brand surface for bg-brand-light in dark mode. Note: text-brand (#3248FF)
-   * has limited contrast on this surface; components using bg-brand-light with
-   * text-brand should add dark:text-indigo-300 for legibility. */
-  --color-brand-light: oklch(0.20 0.03 270);
+  /* Brand surface for bg-brand-light in dark mode; pair it with a light text
+   * color, since text-brand has limited contrast here. */
+  --color-brand-light: #3a2616;
 }
 
 html.dark::-webkit-scrollbar-thumb,

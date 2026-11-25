@@ -9,7 +9,6 @@ import {
   ClipboardList,
   Package,
   Grid3X3,
-  Users,
   UserCog,
   Settings,
   LogOut,
@@ -74,13 +73,6 @@ interface NavItem {
 const ALL_NAV_ITEMS: NavItem[] = [
   { href: '/pos', labelKey: 'pos', icon: ShoppingCart, permission: 'pos.use', businessTypes: null },
   {
-    href: '/dashboard',
-    labelKey: 'dashboard',
-    icon: LayoutDashboard,
-    permission: 'dashboard.view',
-    businessTypes: null,
-  },
-  {
     href: '/orders',
     labelKey: 'orders',
     icon: ClipboardList,
@@ -88,11 +80,11 @@ const ALL_NAV_ITEMS: NavItem[] = [
     businessTypes: null,
   },
   {
-    href: '/whatsapp',
-    labelKey: 'whatsapp',
-    icon: MessageCircle,
-    permission: 'whatsapp.use',
-    businessTypes: null,
+    href: '/tables',
+    labelKey: 'tables',
+    icon: Grid3X3,
+    permission: 'tables.view',
+    businessTypes: ['restaurant'],
   },
   {
     href: '/products',
@@ -116,11 +108,18 @@ const ALL_NAV_ITEMS: NavItem[] = [
     businessTypes: null,
   },
   {
-    href: '/tables',
-    labelKey: 'tables',
-    icon: Grid3X3,
-    permission: 'tables.view',
-    businessTypes: ['restaurant'],
+    href: '/dashboard',
+    labelKey: 'dashboard',
+    icon: LayoutDashboard,
+    permission: 'dashboard.view',
+    businessTypes: null,
+  },
+  {
+    href: '/whatsapp',
+    labelKey: 'whatsapp',
+    icon: MessageCircle,
+    permission: 'whatsapp.use',
+    businessTypes: null,
   },
   {
     href: '/settings?tab=kds',
@@ -128,13 +127,6 @@ const ALL_NAV_ITEMS: NavItem[] = [
     icon: ChefHat,
     permission: 'kitchen.stations.manage',
     businessTypes: ['restaurant'],
-  },
-  {
-    href: '/customers',
-    labelKey: 'customers',
-    icon: Users,
-    permission: 'customers.view',
-    businessTypes: null,
   },
   {
     href: '/staff',
@@ -330,7 +322,7 @@ export default function AppSidebar() {
               <ThemeModeIcon className="size-4 shrink-0" />
               <div className="flex min-w-0 flex-1 flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5 leading-tight group-data-[collapsible=icon]:hidden">
                 <span className="min-w-0 break-words">{tSettings('themeTitle')}</span>
-                <span className="ms-auto min-w-0 break-words text-end text-xs text-muted-foreground">
+                <span className="ms-auto min-w-0 break-words text-end text-xs text-sidebar-foreground/70">
                   {themeModeLabel}
                 </span>
               </div>
@@ -343,11 +335,11 @@ export default function AppSidebar() {
                   className="rounded-xl border-0 bg-sidebar-accent/60 hover:bg-sidebar-accent hover:shadow-xs data-[state=open]:bg-sidebar-accent/90 transition-all h-9 px-3 font-normal group-data-[collapsible=icon]:h-8! group-data-[collapsible=icon]:p-2! group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:rounded-lg"
                   tooltip={user?.name || user?.email || t('user')}
                 >
-                  <UserCircle className="size-4 shrink-0 text-sidebar-primary" />
+                  <UserCircle className="size-4 shrink-0 text-sidebar-foreground" />
                   <span className="font-medium text-sm truncate group-data-[collapsible=icon]:hidden text-sidebar-foreground">
                     {user?.name || user?.email || t('user')}
                   </span>
-                  <ChevronUp className="ms-auto size-4 shrink-0 text-muted-foreground group-data-[collapsible=icon]:hidden transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  <ChevronUp className="ms-auto size-4 shrink-0 text-sidebar-foreground/70 group-data-[collapsible=icon]:hidden transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
