@@ -395,12 +395,24 @@ export default function ProductsPage() {
     setCsvUploading(true);
     setCsvResult(null);
     try {
-      const text = await csvFile.text();
-      const res = await api.post(`/menu-csv/import/${csvType}`, { csv: text });
+      const isWorkbook = csvType === 'products' && /\.xlsx$/i.test(csvFile.name);
+      let res;
+      if (isWorkbook) {
+        const bytes = new Uint8Array(await csvFile.arrayBuffer());
+        let binary = '';
+        for (let i = 0; i < bytes.length; i += 0x8000) {
+          binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+        }
+        res = await api.post('/menu-csv/import-xlsx/products', { file: btoa(binary) });
+      } else {
+        const text = await csvFile.text();
+        res = await api.post(`/menu-csv/import/${csvType}`, { csv: text });
+      }
       setCsvResult(res.data);
       fetchData();
-    } catch {
-      toast.error(tCommon('importFailed'));
+    } catch (err) {
+      const message = (err as { response?: { data?: { error?: unknown } } })?.response?.data?.error;
+      toast.error(typeof message === 'string' ? message : tCommon('importFailed'));
     } finally {
       setCsvUploading(false);
     }
@@ -2860,7 +2872,17 @@ export default function ProductsPage() {
               {/* Download section */}
               <div className="bg-muted rounded-xl p-4 space-y-3">
                 <p className="text-sm font-medium text-foreground">{t('download')}</p>
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
+                  {csvType === 'products' && (
+                    <button
+                      onClick={() =>
+                        downloadCsv('/menu-csv/template-xlsx/products', 'plantilla-productos.xlsx')
+                      }
+                      className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-brand text-white hover:bg-brand-hover font-medium"
+                    >
+                      <Download size={14} /> {t('xlsxTemplate')}
+                    </button>
+                  )}
                   <button
                     onClick={() =>
                       downloadCsv(`/menu-csv/template/${csvType}`, `${csvType}-template.csv`)
@@ -2879,7 +2901,7 @@ export default function ProductsPage() {
                   </button>
                 </div>
                 {csvType === 'products' && (
-                  <p className="text-xs text-muted-foreground">{t('csvProductsHelp')}</p>
+                  <p className="text-xs text-muted-foreground">{t('xlsxProductsHelp')}</p>
                 )}
                 {csvType === 'categories' && (
                   <p className="text-xs text-muted-foreground">{t('csvCategoriesHelp')}</p>
@@ -2899,7 +2921,7 @@ export default function ProductsPage() {
                   </span>
                   <input
                     type="file"
-                    accept=".csv,text/csv"
+                    accept={csvType === 'products' ? '.xlsx,.csv,text/csv' : '.csv,text/csv'}
                     className="hidden"
                     onChange={(e) => {
                       setCsvFile(e.target.files?.[0] ?? null);
@@ -2940,10 +2962,26 @@ export default function ProductsPage() {
                         </p>
                       </>
                     ) : (
-                      <p>
-                        {tCommon('created')}{' '}
-                        <span className="font-medium">{String(csvResult.created ?? 0)}</span>
-                      </p>
+                      <>
+                        <p>
+                          {tCommon('created')}{' '}
+                          <span className="font-medium">{String(csvResult.created ?? 0)}</span>
+                        </p>
+                        {Number(csvResult.updated ?? 0) > 0 && (
+                          <p>
+                            {t('xlsxUpdated')}{' '}
+                            <span className="font-medium">{String(csvResult.updated)}</span>
+                          </p>
+                        )}
+                        {Number(csvResult.categories_created ?? 0) > 0 && (
+                          <p>
+                            {t('xlsxCategoriesCreated')}{' '}
+                            <span className="font-medium">
+                              {String(csvResult.categories_created)}
+                            </span>
+                          </p>
+                        )}
+                      </>
                     )}
                     <p>
                       {tCommon('skipped')}{' '}

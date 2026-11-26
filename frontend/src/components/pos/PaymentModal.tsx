@@ -664,6 +664,7 @@ export default function PaymentModal({
   // to prevent flashing stale values.
   const [syncedBill, setSyncedBill] = useState(bill);
   const [syncedRemaining, setSyncedRemaining] = useState(remaining);
+  const [cashDefaultBillId, setCashDefaultBillId] = useState<typeof bill.id | null>(null);
   const billIdChanged = bill !== syncedBill && bill.id !== syncedBill.id;
   if (bill !== syncedBill) {
     setSyncedBill(bill);
@@ -773,6 +774,32 @@ export default function PaymentModal({
     setAmountTarget((target) =>
       target?.kind === 'discount' ? { kind: 'payment', index: 0 } : target,
     );
+  }
+
+  // A fresh payment starts fully allocated to cash; tapping another method moves it.
+  if (
+    cashDefaultBillId !== bill.id &&
+    !billIdChanged &&
+    !attemptLocked &&
+    !paymentsTouched &&
+    !justPaid &&
+    remaining > 0 &&
+    payments[0]?.method === 'cash' &&
+    payments.every((p) => !(parseFloat(p.amount) > 0))
+  ) {
+    setCashDefaultBillId(bill.id);
+    const dueMinor = Math.max(
+      0,
+      toMinorUnits(remaining) - toMinorUnits(toStoredUnit(parseFloat(walletAmount) || 0)),
+    );
+    if (dueMinor > 0) {
+      setAutoFilledSingleIndex(0);
+      setPayments(
+        payments.map((p, idx) =>
+          idx === 0 ? { ...p, amount: formatInput(toDisplayUnit(dueMinor / minorFactor)) } : p,
+        ),
+      );
+    }
   }
 
   // Proportionally update payment inputs when remaining balance changes,
@@ -1197,7 +1224,20 @@ export default function PaymentModal({
   const updateActiveAmount = (value: string) => {
     if (!amountTarget || attemptLocked || justPaid) return;
     if (amountTarget.kind === 'payment') {
-      updatePaymentAmount(amountTarget.index, value);
+      const prefilled =
+        autoFilledSingleIndex === amountTarget.index
+          ? (payments[amountTarget.index]?.amount ?? '')
+          : '';
+      // The auto-filled total is a suggestion: the first key starts a fresh tendered amount.
+      const appended =
+        prefilled && value.startsWith(prefilled) ? value.slice(prefilled.length) : '';
+      const next =
+        prefilled && /^\d{1,2}$/.test(appended)
+          ? appended
+          : prefilled && value.length < prefilled.length && prefilled.startsWith(value)
+            ? ''
+            : value;
+      updatePaymentAmount(amountTarget.index, next);
       return;
     }
     if (amountTarget.kind === 'wallet') {

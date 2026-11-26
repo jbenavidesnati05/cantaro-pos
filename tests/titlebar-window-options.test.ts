@@ -40,13 +40,13 @@ assert.equal(macMainWindow.options.titleBarStyle, 'hiddenInset');
 assert.equal(windowsMainWindow.options.titleBarStyle, 'hidden');
 assert.equal(linuxMainWindow.options.titleBarStyle, 'hidden');
 assert.deepEqual(macMainWindow.options.titleBarOverlay, {
-  color: '#ffffff',
-  symbolColor: '#0a0a0a',
+  color: '#f6ebd3',
+  symbolColor: '#1c130b',
   height: 40,
 });
 assert.deepEqual(darkMainWindow.options.titleBarOverlay, {
-  color: '#0f0f0f',
-  symbolColor: '#fafafa',
+  color: '#1c1510',
+  symbolColor: '#f5ede2',
   height: 40,
 });
 assert.equal(macMainWindow.options.webPreferences.preload, '/tmp/preload.js');
@@ -267,8 +267,8 @@ console.log('Title-bar main-window options and popup/KDS exclusions are preserve
 // The static constructor options use the light tokens.
 assert.deepEqual(resolveTitleBarOverlayColors(false), TITLE_BAR_OVERLAY_COLORS.light);
 assert.deepEqual(resolveTitleBarOverlayColors(true), TITLE_BAR_OVERLAY_COLORS.dark);
-assert.deepEqual(TITLE_BAR_OVERLAY_COLORS.light, { color: '#ffffff', symbolColor: '#0a0a0a' });
-assert.deepEqual(TITLE_BAR_OVERLAY_COLORS.dark, { color: '#0f0f0f', symbolColor: '#fafafa' });
+assert.deepEqual(TITLE_BAR_OVERLAY_COLORS.light, { color: '#f6ebd3', symbolColor: '#1c130b' });
+assert.deepEqual(TITLE_BAR_OVERLAY_COLORS.dark, { color: '#1c1510', symbolColor: '#f5ede2' });
 assert.equal(TITLE_BAR_HEIGHT, 40);
 
 // Platform gating: overlay updates only where setTitleBarOverlay works.
@@ -290,11 +290,11 @@ function makeOverlaySpy(): { calls: unknown[]; win: unknown } {
 
 const darkCall = makeOverlaySpy();
 assert.equal(applyTitleBarOverlayTheme(darkCall.win, true, 'darwin'), true);
-assert.deepEqual(darkCall.calls, [{ color: '#0f0f0f', symbolColor: '#fafafa', height: 40 }]);
+assert.deepEqual(darkCall.calls, [{ color: '#1c1510', symbolColor: '#f5ede2', height: 40 }]);
 
 const lightCall = makeOverlaySpy();
 assert.equal(applyTitleBarOverlayTheme(lightCall.win, false, 'win32'), true);
-assert.deepEqual(lightCall.calls, [{ color: '#ffffff', symbolColor: '#0a0a0a', height: 40 }]);
+assert.deepEqual(lightCall.calls, [{ color: '#f6ebd3', symbolColor: '#1c130b', height: 40 }]);
 
 // Unsupported platform and missing/unusable API must no-op without throwing.
 const linuxCall = makeOverlaySpy();
@@ -341,10 +341,10 @@ const synced = makeOverlaySpy();
 const unsubscribe = attachTitleBarThemeSync(syncTheme, () => synced.win, 'darwin');
 syncTheme.shouldUseDarkColors = true;
 syncTheme.emitUpdated();
-assert.deepEqual(synced.calls, [{ color: '#0f0f0f', symbolColor: '#fafafa', height: 40 }]);
+assert.deepEqual(synced.calls, [{ color: '#1c1510', symbolColor: '#f5ede2', height: 40 }]);
 syncTheme.shouldUseDarkColors = false;
 syncTheme.emitUpdated();
-assert.deepEqual(synced.calls[1], { color: '#ffffff', symbolColor: '#0a0a0a', height: 40 });
+assert.deepEqual(synced.calls[1], { color: '#f6ebd3', symbolColor: '#1c130b', height: 40 });
 unsubscribe();
 syncTheme.emitUpdated();
 assert.equal(synced.calls.length, 2, 'unsubscribed listeners stop receiving updates');

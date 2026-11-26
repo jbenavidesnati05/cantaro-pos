@@ -834,8 +834,17 @@ async function testPaymentModalLockDismissAndBillReset() {
       )[0];
       assert.equal(
         bill2CashInput ? bill2CashInput.props.value : '',
+        '35',
+        'Switching bill.id resets stale tenders and defaults the new bill to cash',
+      );
+      const bill2CardInput = collectElements(
+        bill2Tree,
+        (el) => el.type === 'input' && el.props?.['aria-label'] === 'methodCard amount',
+      )[0];
+      assert.equal(
+        bill2CardInput ? bill2CardInput.props.value : '',
         '',
-        'Switching bill.id resets stale tender inputs from previous bill',
+        'Card tender from the previous bill does not carry over',
       );
       const bill2CardRefInputs = collectElements(
         bill2Tree,
@@ -873,8 +882,8 @@ async function testPaymentModalLockDismissAndBillReset() {
       )[0];
       assert.equal(
         bill3CashInput ? bill3CashInput.props.value : '',
-        '',
-        'Switching bill.id with a new balance does not rescale auto-filled tender from prior bill',
+        '50',
+        'Switching bill.id with a new balance defaults cash to the new bill balance',
       );
     } finally {
       harness.cleanupAll();
@@ -2269,7 +2278,11 @@ async function testReviewFixRegressions() {
         freshTree,
         (el) => el.type === 'input' && el.props?.['aria-label'] === 'methodCash amount',
       )[0];
-      assert.equal(freshCashInput?.props?.value, '', 'Switching bill clears restored Cash amount');
+      assert.equal(
+        freshCashInput?.props?.value,
+        '25',
+        'Switching bill replaces the restored Cash amount with the new bill balance',
+      );
     } finally {
       restoreHarness.cleanupAll();
       if (!hadWindow) delete (globalThis as any).window;

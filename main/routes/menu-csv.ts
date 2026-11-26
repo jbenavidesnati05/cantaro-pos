@@ -3,6 +3,11 @@ import { getDatabase, now, generateShortId, getSettingValue } from '../db';
 import { randomUUID } from 'node:crypto';
 import { requirePermission } from '../services/authorization';
 import { adjustProductStock } from '../services/inventory';
+import {
+  ProductWorkbookError,
+  buildProductTemplate,
+  importProductWorkbook,
+} from '../services/product-workbook';
 import { cloudSync } from '../services/cloud-sync';
 import { serializeOperationFailure } from '../lib/operation-failure';
 import { getActiveCountryPack, hasConfiguredTaxCategories } from '../services/tax';
@@ -386,6 +391,60 @@ const TEMPLATES: Record<string, string> = {
     'Temperature,Cold (Iced),10,yes,1,1,no,0,0',
   ].join('\n'),
 };
+
+router.get(
+  '/template-xlsx/products',
+  requirePermission('catalog.import-export'),
+  async (_req: Request, res: Response) => {
+    try {
+      const buffer = await buildProductTemplate(getDatabase());
+      res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      );
+      res.setHeader('Content-Disposition', 'attachment; filename="plantilla-productos.xlsx"');
+      res.send(buffer);
+    } catch (err: any) {
+      res.locals.postHogError = err;
+      console.error('[API] Product workbook template failed:', err);
+      res.status(500).json({ error: 'Product workbook template failed' });
+    }
+  },
+);
+
+const MAX_XLSX_BASE64_LENGTH = 8_000_000;
+
+router.post(
+  '/import-xlsx/products',
+  requirePermission('catalog.import-export'),
+  async (req: Request, res: Response) => {
+    try {
+      const { file } = req.body as { file?: unknown };
+      if (typeof file !== 'string' || !file || file.length > MAX_XLSX_BASE64_LENGTH) {
+        captureInvalidMenuCsvInput();
+        return res.status(400).json({ error: 'No se recibió un archivo Excel válido.' });
+      }
+      const country = getSettingValue('country') || '';
+      const businessType = getSettingValue('business_type') || 'restaurant';
+      const pack = getActiveCountryPack(country);
+      const result = await importProductWorkbook(getDatabase(), Buffer.from(file, 'base64'), {
+        regional: currentRegionalSnapshot(),
+        defaultTaxCategoryId: hasConfiguredTaxCategories(pack, businessType)
+          ? (pack.defaultCategories.product ?? null)
+          : null,
+        actorUserId: String((req as Request & { user?: { userId?: string } }).user?.userId || ''),
+      });
+      captureMenuCsvRowRejections(result.failed, result.created + result.updated);
+      res.json(result);
+    } catch (err: any) {
+      if (err instanceof ProductWorkbookError) {
+        captureInvalidMenuCsvInput();
+        return res.status(400).json({ error: err.message, errors: [err.message] });
+      }
+      return csvImportErrorResponse(res, err);
+    }
+  },
+);
 
 router.get(
   '/template/:type',

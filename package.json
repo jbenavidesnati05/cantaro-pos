@@ -1,6 +1,6 @@
 {
   "name": "flo-desktop",
-  "version": "3.13.63",
+  "version": "3.13.64",
   "description": "Free, open-source, offline-first restaurant POS with KDS, SQLite, and thermal printer support.",
   "engines": {
     "node": ">=22.12.0"
@@ -219,7 +219,7 @@
     "test:integration-discount-settings": "node tests/run-electron-node-test.cjs tests/integration-discount-settings.test.ts",
     "test:theme-mode-settings": "node tests/run-electron-node-test.cjs tests/theme-mode-settings.test.ts",
     "test:integration-loyalty-global": "node tests/run-electron-node-test.cjs tests/integration-loyalty-global-rate.test.ts",
-    "test:issue-248-csv": "node tests/run-electron-node-test.cjs tests/issue-248-menu-csv.test.ts && node tests/run-electron-node-test.cjs tests/menu-csv-formula-export.test.ts",
+    "test:issue-248-csv": "node tests/run-electron-node-test.cjs tests/issue-248-menu-csv.test.ts && node tests/run-electron-node-test.cjs tests/menu-csv-formula-export.test.ts && node tests/run-electron-node-test.cjs tests/product-workbook-import.test.ts",
     "test:integration-loyalty-redemption": "node tests/run-electron-node-test.cjs tests/integration-loyalty-redemption.test.ts",
     "test:issue-24": "node tests/run-electron-node-test.cjs tests/issue-24-cancel-item-checkout.test.ts",
     "test:issue-zero-balance-settlement": "node tests/run-electron-node-test.cjs tests/issue-zero-balance-settlement.test.ts",

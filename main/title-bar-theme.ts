@@ -10,8 +10,8 @@ export interface TitleBarOverlayColors {
 }
 
 export const TITLE_BAR_OVERLAY_COLORS: Readonly<Record<'light' | 'dark', TitleBarOverlayColors>> = {
-  light: { color: '#ffffff', symbolColor: '#0a0a0a' },
-  dark: { color: '#0f0f0f', symbolColor: '#fafafa' },
+  light: { color: '#f6ebd3', symbolColor: '#1c130b' },
+  dark: { color: '#1c1510', symbolColor: '#f5ede2' },
 };
 
 export function resolveTitleBarOverlayColors(isDark: boolean): TitleBarOverlayColors {
@@ -37,7 +37,10 @@ export function applyTitleBarOverlayTheme(
   const candidate = win as OverlayCapableWindow | null | undefined;
   if (!candidate || typeof candidate.setTitleBarOverlay !== 'function') return false;
   try {
-    candidate.setTitleBarOverlay({ ...resolveTitleBarOverlayColors(isDark), height: TITLE_BAR_HEIGHT });
+    candidate.setTitleBarOverlay({
+      ...resolveTitleBarOverlayColors(isDark),
+      height: TITLE_BAR_HEIGHT,
+    });
     return true;
   } catch {
     // Some window-manager combinations reject runtime overlay changes even
@@ -62,7 +65,10 @@ export function attachTitleBarThemeSync(
   };
   nativeTheme.on('updated', onUpdated);
   return () => {
-    (nativeTheme as ThemeLike & { off?(event: 'updated', listener: () => void): unknown }).off?.('updated', onUpdated);
+    (nativeTheme as ThemeLike & { off?(event: 'updated', listener: () => void): unknown }).off?.(
+      'updated',
+      onUpdated,
+    );
   };
 }
 

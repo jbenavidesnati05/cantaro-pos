@@ -577,7 +577,7 @@ async function run() {
       '2-tab switcher omitted when splitChecksEnabled is false',
     );
     const unifiedSplitIdx = pmRender.html.indexOf('data-testid="unified-split-card"');
-    const payCtaIdx = pmRender.html.indexOf('pay $0.00');
+    const payCtaIdx = pmRender.html.search(/pay \$[\d.,]+/);
     assert.ok(
       unifiedSplitIdx > 0 && unifiedSplitIdx < payCtaIdx,
       'unified-split-card is placed in the main right column before the sticky footer',

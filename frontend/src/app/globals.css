@@ -8,29 +8,29 @@
   --font-sans: "Geist", "Noto Sans Devanagari", "Nirmala UI", "Kohinoor Devanagari", "Devanagari Sangam MN", "Noto Sans Gurmukhi", "Raavi", "Kohinoor Gurmukhi", "Gurmukhi Sangam MN", "Noto Sans Telugu", "Kohinoor Telugu", "Telugu Sangam MN", system-ui, sans-serif;
   --font-mono: "Geist Mono", monospace;
   --radius: 0.625rem;
-  --background: #f8eedd;
-  --foreground: #2b1d12;
+  --background: #f6ebd3;
+  --foreground: #1c130b;
   --card: #fffdf8;
-  --card-foreground: #2b1d12;
+  --card-foreground: #1c130b;
   --popover: #fffdf8;
-  --popover-foreground: #2b1d12;
+  --popover-foreground: #1c130b;
   --primary: #2f3e0f;
   --primary-foreground: #f8eedd;
-  --secondary: #f1e2c8;
-  --secondary-foreground: #5b3a21;
-  --muted: #f1e2c8;
-  --muted-foreground: #7a5a40;
-  --accent: #f3d6c1;
-  --accent-foreground: #5b3a21;
+  --secondary: #e9d3a8;
+  --secondary-foreground: #1c130b;
+  --muted: #f2e3c4;
+  --muted-foreground: #4f3d2e;
+  --accent: #e3ebcb;
+  --accent-foreground: #1c130b;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #e6d3b5;
-  --input: #dcc7a6;
+  --border: #dcc59f;
+  --input: #cdb48a;
   --ring: #d2652a;
   /* Semantic surfaces: new UI uses these instead of raw gray or indigo
    * utilities. Existing raw-color usage migrates only when that page is
    * already being touched, not as a standalone sweep. */
   --panel: var(--card);
-  --selected-row: #f6d9c2;
+  --selected-row: #dbe6bd;
   --chart-1: #d2652a;
   --chart-2: #6e9e2e;
   --chart-3: #7a5a40;
@@ -449,7 +449,7 @@ div:hover > .flo-toast-drain,
 
   /* Brand colors */
   --color-brand: #b5521d;
-  --color-brand-light: #fbe6d8;
+  --color-brand-light: #fbefd2;
   --color-brand-hover: #9a4518;
   --color-brand-ring: #d2652a80;
   --color-success: #4d7c1c;
